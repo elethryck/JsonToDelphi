@@ -5,7 +5,7 @@ interface
 uses
   FMX.TreeView,
 
-  Pkg.Json.Mapper;
+  Pkg.Json.Mapper, Pkg.Json.StubField;
 
 Type
   JsonVisualizer = class
@@ -23,7 +23,7 @@ Type
 implementation
 
 uses
-  System.Sysutils;
+  System.Sysutils, Pkg.Json.JsonValueHelper;
 
 { TJsonVisualizer }
 
@@ -38,7 +38,6 @@ begin
   finally
     JsonMapper.Free;
   end;
-
 end;
 
 class procedure JsonVisualizer.FormatFields(aTreeView: TTreeView);

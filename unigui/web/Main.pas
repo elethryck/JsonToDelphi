@@ -7,7 +7,8 @@ uses
   Dialogs, uniGUITypes, uniGUIAbstractClasses, uniGUIClasses, uniGUIRegClasses,
   uniGUIForm, uniLabel, uniGUIBaseClasses, uniPanel, uniMemo, uniHTMLFrame,
   uniSplitter, uniRadioGroup, uniButton, uniBitBtn, UniFSButton, uniImage,
-  UniFSConfirm, UniFSPopup, Pkg.Json.Mapper, Pkg.Json.DTO, uniTimer;
+  UniFSConfirm, UniFSPopup, Pkg.Json.Mapper, Pkg.Json.DTO, Pkg.Json.Settings,
+  uniTimer, uniCheckBox, uniGroupBox;
 
 type
   TMainForm = class(TUniForm)
@@ -18,48 +19,52 @@ type
     lblDeveloper: TUniLabel;
     memJson: TUniMemo;
     lbl1: TUniLabel;
-    pnlControl: TUniPanel;
     lbl2: TUniLabel;
     lbl3: TUniLabel;
     lbl4: TUniLabel;
     lbl5: TUniLabel;
-    spl1: TUniSplitter;
-    lblDoacao: TUniLabel;
-    btnGenerate: TUniFSButton;
-    btnValidate: TUniFSButton;
-    btn1: TUniFSButton;
     UniLabel1: TUniLabel;
     UniLabel2: TUniLabel;
     lbl6: TUniLabel;
     UniLabel3: TUniLabel;
     UniLabel4: TUniLabel;
     lblJsonToPascal: TUniLabel;
-    btnSample: TUniFSButton;
     pnlBottom: TUniPanel;
     imgFalconSistemas: TUniImage;
     lblVersion: TUniLabel;
     lbl7: TUniLabel;
     lbl8: TUniLabel;
-    lblVerionPrior: TUniLabel;
-    btnCollaborators: TUniFSButton;
     tmr: TUniTimer;
     Confirm: TUniFSConfirm;
+    btnCollaborators: TUniFSButton;
+    btn1: TUniFSButton;
+    lblNews: TUniLabel;
+    btnGenerate: TUniFSButton;
+    btnValidate: TUniFSButton;
+    btnSample: TUniFSButton;
+    grpSettings: TUniGroupBox;
+    chkUsePascalCase: TUniCheckBox;
+    chkAddJsonPropertyAttributes: TUniCheckBox;
+    chkSuppressZeroDate: TUniCheckBox;
+    chkPostfixClassNames: TUniCheckBox;
+    lblDoacao: TUniLabel;
     procedure UniFormAfterShow(Sender: TObject);
     procedure UniFormClose(Sender: TObject; var Action: TCloseAction);
     procedure UniFormAjaxEvent(Sender: TComponent; EventName: string; Params: TUniStrings);
     procedure btnGenerateClick(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure btnSampleClick(Sender: TObject);
-    procedure lblVerionPriorClick(Sender: TObject);
     procedure UniFormCreate(Sender: TObject);
     procedure UniFormDestroy(Sender: TObject);
     procedure tmrTimer(Sender: TObject);
+    procedure lblDoacaoClick(Sender: TObject);
   protected
     Popup: TUniFSPopup;
     procedure LoadCoallaborators;
   private
     { Private declarations }
-    jm : TPkgJsonMapper;
+    JsonMapper : TPkgJsonMapper;
+    JsonSettings : TSettings;
 
     procedure DefineRegrasLayout;
     procedure AlinhamentoCenter;
@@ -118,7 +123,10 @@ begin
   vJson := Trim(memJson.Lines.Text);
 
   if Length(vJson) <= 4 then
+  begin
+    Confirm.Alert('Enter JSON', 'Input Json to generate class', 'far fa-lightbulb', TTypeColor.green, TTheme.modern);
     Exit;
+  end;
 
   try
     vJson := TJsonDTO.PrettyPrintJSON(vJson);
@@ -133,13 +141,18 @@ begin
   end;
 
   try
-    if jm = nil then
-      jm := TPkgJsonMapper.Create();
+    JsonSettings.UsePascalCase := chkUsePascalCase.Checked;
+    JsonSettings.SuppressZeroDate := chkSuppressZeroDate.Checked;
+    JsonSettings.AddJsonPropertyAttributes := chkAddJsonPropertyAttributes.Checked;
+    JsonSettings.PostFixClassNames := chkPostfixClassNames.Checked;
 
-    jm.DestinationUnitName := 'RootUnit';
-    jm.Parse(memJson.Text);
+    if JsonMapper = nil then
+      JsonMapper := TPkgJsonMapper.Create();
 
-    frmGenerateUnit.synx.Text := jm.GenerateUnit;
+    JsonMapper.DestinationUnitName := 'RootUnit';
+    JsonMapper.Parse(memJson.Text);
+
+    frmGenerateUnit.synx.Text := JsonMapper.GenerateUnit;
     frmGenerateUnit.ShowModal();
   except
     on e: Exception do
@@ -170,9 +183,9 @@ begin
   lblJsonToPascal.Visible := False;
 end;
 
-procedure TMainForm.lblVerionPriorClick(Sender: TObject);
+procedure TMainForm.lblDoacaoClick(Sender: TObject);
 begin
-  UniSession.UrlRedirect('https://x_versionprior_x.jsontodelphi.com/');
+  UniSession.AddJS('gtag(''event'',''donation'',{"transaction_id": "paypal"});');
 end;
 
 procedure TMainForm.LoadCoallaborators;
@@ -183,6 +196,10 @@ begin
   try
     SB.Append('<div style=''margin:0px 0px 8px 0px'';>List of Contributors</div>');
     SB.Append('<div class=''list-group''> ');
+    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-12-05 - Leon Siepman <b>U$ 25,00</b> </a>');
+    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-11-06 - Samuel Herzog <b>U$ 20,00</b> </a>');
+    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-10-30 - Christian Späth <b>U$ 15,00</b> </a>');
+    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-08-06 - Валерий Шабаков <b>U$ 10,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-07-24 - Геннадий Малинин <b>U$ 5,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-06-25 - Pierre Demers <b>U$ 30,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-06-16 - Christian Späth <b>U$ 15,00</b> </a>');
@@ -211,25 +228,19 @@ end;
 
 procedure TMainForm.tmrTimer(Sender: TObject);
 begin
-  Confirm.boxWidth := '670px';
+  Confirm.boxWidth := '500px';
   Confirm.Alert(
-    'Thanks for the donations',
-    'If you like this site and use it frequently, <b>make a donation to keep it up and running !</b> <br> <br>'+
-    '-- <br>'+
-    'Caso voce goste deste site e utiliza com frequência, <b>faça uma doação, para mante-lo no ar !</b> <br><br>'+
-    lblDoacao.Caption+'</br>'+
-    'Thanks</br>'+
-    '<i class=''fas fa-medal''></i> <b>Геннадий Малинин</b> $5,00 USD</br> '+
-    '<i class=''fas fa-medal''></i> <b>Pierre Demers</b> $30,00 USD</br> '+
-    '<i class=''fas fa-medal''></i> <b>Christian Späth</b> $15,00 USD',
-    'fas fa-hands-helping',TTypeColor.blue, TTheme.modern);
+    'jsontodelphi',
+    '<p>"If you like this site and use it frequently, <b>make a donation to keep it up and running !</b>"</p> </br> '+
+    '<p><i class="fab fa-lg fa-github"></i><a href="https://github.com/marlonnardi/JsonToDelphi#fixes--features-03h-october-2021" target="_blank"> News Fixes & Features: 03h October 2021</a></p></br> '+
+    lblDoacao.Caption+'</br>',
+    'fas fa-rocket',TTypeColor.green, TTheme.modern);
 end;
 
 procedure TMainForm.UniFormAfterShow(Sender: TObject);
 begin
   DefineRegrasLayout;
-  UniSession.AddJS('ga(''set'',''page'', ''/'+Self.Name+'.html'');');
-  UniSession.AddJS('ga(''send'',''pageview'');');
+  UniMainModule.SetGA4(Self.Name);
 end;
 
 procedure TMainForm.UniFormAjaxEvent(Sender: TComponent; EventName: string;
@@ -241,20 +252,22 @@ end;
 
 procedure TMainForm.UniFormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if Assigned(jm) then
-    FreeAndNil(jm);
+  if Assigned(JsonMapper) then
+    FreeAndNil(JsonMapper);
 end;
 
 procedure TMainForm.UniFormCreate(Sender: TObject);
 begin
+  JsonSettings := TSettings.Instance;
+
   Popup := TUniFSPopup.Create(Self);
-  Popup.Width := 300;
-  Popup.RelativeY := 15;
+  Popup.Width := 350;
+  Popup.RelativeY := -15;
   Popup.RelativeX := 0;
+  Popup.RelativePosition := TRelativePosition.b_t;
+  Popup.ArrowLocation := TArrowLocation.bottom;
   Popup.Target := btnCollaborators;
   LoadCoallaborators;
-
-  tmr.Enabled := True;
 end;
 
 procedure TMainForm.UniFormDestroy(Sender: TObject);

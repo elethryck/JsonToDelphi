@@ -2,9 +2,9 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Width = 1080
-  Height = 624
+  Height = 647
   Caption = 'MainForm'
-  Color = 15460837
+  Color = 16447477
   BorderStyle = bsNone
   OldCreateOrder = False
   OnClose = UniFormClose
@@ -14,22 +14,74 @@ object MainForm: TMainForm
   OnAjaxEvent = UniFormAjaxEvent
   OnCreate = UniFormCreate
   OnDestroy = UniFormDestroy
+  PixelsPerInch = 96
   DesignSize = (
     1080
-    624)
-  PixelsPerInch = 96
-  TextHeight = 13
+    647)
+  TextHeight = 15
+  object pnlBottom: TUniPanel
+    Left = 0
+    Top = 601
+    Width = 1080
+    Height = 46
+    Hint = ''
+    Align = alBottom
+    TabOrder = 1
+    BorderStyle = ubsNone
+    Caption = ''
+    Color = 16447477
+    DesignSize = (
+      1080
+      46)
+    object imgFalconSistemas: TUniImage
+      Left = 442
+      Top = 1
+      Width = 150
+      Height = 39
+      Cursor = crHandPoint
+      Hint = 'http://www.falconsistemas.com.br'
+      ShowHint = True
+      ParentShowHint = False
+      AutoSize = True
+      Url = '/imagens/Falcon_Sistemas_Powered_by.png'
+      Anchors = [akBottom]
+      ClientEvents.ExtEvents.Strings = (
+        
+          'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://f' +
+          'alconsistemas.com.br");'#13#10'}')
+      LayoutConfig.Cls = 'card card-radius'
+    end
+    object lblVersion: TUniLabel
+      Left = 970
+      Top = 23
+      Width = 89
+      Height = 11
+      Hint = 'Version'
+      ShowHint = True
+      ParentShowHint = False
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = '1.0.0.2'
+      Anchors = [akRight, akBottom]
+      ParentFont = False
+      Font.Color = 10853781
+      Font.Height = -9
+      TabOrder = 2
+    end
+  end
   object pnlMaster: TUniPanel
     Left = 21
     Top = 8
     Width = 1024
-    Height = 521
+    Height = 587
     Hint = ''
-    Anchors = [akTop]
+    Anchors = [akTop, akBottom]
+    ParentFont = False
+    Font.Name = 'Roboto'
     TabOrder = 0
     BorderStyle = ubsNone
     Caption = ''
-    Color = 15460837
+    Color = 16447477
     object pnlTop: TUniPanel
       Left = 0
       Top = 0
@@ -37,18 +89,18 @@ object MainForm: TMainForm
       Height = 113
       Hint = ''
       Align = alTop
-      TabOrder = 1
+      TabOrder = 0
       BorderStyle = ubsNone
       Caption = ''
-      Color = 15460837
+      Color = 16447477
       DesignSize = (
         1024
         113)
       object lblTitle: TUniLabel
         Left = 4
         Top = 16
-        Width = 176
-        Height = 40
+        Width = 180
+        Height = 45
         Hint = ''
         Caption = 'jsontodelphi'
         ParentFont = False
@@ -61,8 +113,8 @@ object MainForm: TMainForm
       object lblSubTitle: TUniLabel
         Left = 4
         Top = 57
-        Width = 236
-        Height = 19
+        Width = 231
+        Height = 21
         Hint = ''
         Caption = 'generate delphi classes from json'
         ParentFont = False
@@ -70,13 +122,13 @@ object MainForm: TMainForm
         Font.Height = -16
         ParentColor = False
         Color = clGray
-        TabOrder = 2
+        TabOrder = 11
       end
       object lblDeveloper: TUniLabel
         Left = 941
         Top = 23
-        Width = 73
-        Height = 16
+        Width = 79
+        Height = 17
         Cursor = crHandPoint
         Hint = ''
         TextConversion = txtHTML
@@ -97,7 +149,7 @@ object MainForm: TMainForm
         Left = 659
         Top = 56
         Width = 106
-        Height = 16
+        Height = 17
         Hint = ''
         Caption = 'with thanks to the '
         Anchors = [akTop, akRight]
@@ -106,13 +158,13 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 4
+        TabOrder = 6
       end
       object lbl2: TUniLabel
         Left = 817
         Top = 23
-        Width = 118
-        Height = 16
+        Width = 122
+        Height = 17
         Hint = ''
         Caption = 'web development by'
         Anchors = [akTop, akRight]
@@ -121,13 +173,13 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 5
+        TabOrder = 2
       end
       object lbl3: TUniLabel
         Left = 767
         Top = 56
-        Width = 84
-        Height = 16
+        Width = 87
+        Height = 17
         Cursor = crHandPoint
         Hint = ''
         TextConversion = txtHTML
@@ -142,13 +194,13 @@ object MainForm: TMainForm
           
             'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://g' +
             'ithub.com/PKGeorgiev");'#13#10'}')
-        TabOrder = 6
+        TabOrder = 7
       end
       object lbl4: TUniLabel
         Left = 974
         Top = 56
-        Width = 40
-        Height = 16
+        Width = 41
+        Height = 17
         Hint = ''
         Caption = 'project'
         Anchors = [akTop, akRight]
@@ -157,7 +209,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 7
+        TabOrder = 10
       end
       object lbl5: TUniLabel
         Left = 618
@@ -174,13 +226,13 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 8
+        TabOrder = 4
       end
       object UniLabel1: TUniLabel
         Left = 920
         Top = 88
-        Width = 94
-        Height = 16
+        Width = 97
+        Height = 17
         Cursor = crHandPoint
         Hint = ''
         TextConversion = txtHTML
@@ -195,13 +247,13 @@ object MainForm: TMainForm
           
             'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://g' +
             'ithub.com/ahausladen/JsonDataObjects");'#13#10'}')
-        TabOrder = 9
+        TabOrder = 16
       end
       object UniLabel2: TUniLabel
         Left = 739
         Top = 88
-        Width = 127
-        Height = 16
+        Width = 129
+        Height = 17
         Hint = ''
         Caption = 'I also recommend this'
         Anchors = [akTop, akRight]
@@ -210,7 +262,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 10
+        TabOrder = 13
       end
       object lbl6: TUniLabel
         Left = 640
@@ -220,14 +272,14 @@ object MainForm: TMainForm
         Hint = ''
         TextConversion = txtHTML
         AutoSize = False
-        Caption = '<i class="fab fa-lg fa-github" aria-hidden="true"></i>'
+        Caption = '<i class="fab fa-lg fa-github"></i>'
         Anchors = [akTop, akRight]
         ParentFont = False
         Font.Color = clBlack
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 11
+        TabOrder = 5
       end
       object UniLabel3: TUniLabel
         Left = 876
@@ -244,7 +296,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 12
+        TabOrder = 14
       end
       object UniLabel4: TUniLabel
         Left = 898
@@ -261,13 +313,13 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 13
+        TabOrder = 15
       end
       object lblJsonToPascal: TUniLabel
         Left = 5
         Top = 82
-        Width = 97
-        Height = 19
+        Width = 94
+        Height = 21
         Hint = ''
         Caption = 'json to pascal'
         ParentFont = False
@@ -275,13 +327,13 @@ object MainForm: TMainForm
         Font.Height = -16
         ParentColor = False
         Color = clGray
-        TabOrder = 14
+        TabOrder = 12
       end
       object lbl7: TUniLabel
         Left = 857
         Top = 56
-        Width = 21
-        Height = 16
+        Width = 22
+        Height = 17
         Hint = ''
         Caption = 'and'
         Anchors = [akTop, akRight]
@@ -290,13 +342,13 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 15
+        TabOrder = 8
       end
       object lbl8: TUniLabel
-        Left = 884
-        Top = 57
-        Width = 83
-        Height = 16
+        Left = 883
+        Top = 56
+        Width = 85
+        Height = 17
         Cursor = crHandPoint
         Hint = ''
         TextConversion = txtHTML
@@ -310,8 +362,8 @@ object MainForm: TMainForm
         ClientEvents.ExtEvents.Strings = (
           
             'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://g' +
-            'ithub.com/JensBorrisholt");'#13#10'}')
-        TabOrder = 16
+            'ithub.com/PKGeorgiev");'#13#10'}')
+        TabOrder = 9
       end
     end
     object memJson: TUniMemo
@@ -327,237 +379,225 @@ object MainForm: TMainForm
       TabOrder = 2
       EmptyText = 'Enter JSON'
     end
-    object pnlControl: TUniPanel
-      Left = 0
-      Top = 445
-      Width = 1024
-      Height = 62
-      Hint = ''
-      Align = alTop
-      TabOrder = 3
-      BorderStyle = ubsNone
-      Caption = ''
-      Color = 15460837
-      DesignSize = (
-        1024
-        62)
-      object lblDoacao: TUniLabel
-        AlignWithMargins = True
-        Left = 778
-        Top = 13
-        Width = 142
-        Height = 42
-        Cursor = crHandPoint
-        Hint = ''
-        ShowHint = True
-        ParentShowHint = False
-        TextConversion = txtHTML
-        AutoSize = False
-        Caption = ''
-        Anchors = [akTop, akRight]
-        ParentFont = False
-        Font.Height = -13
-        TabOrder = 1
-        ScreenMask.Enabled = True
-        ScreenMask.WaitData = True
-        ScreenMask.Message = 'Processando, por favor aguarde...'
-        ScreenMask.Target = Owner
-      end
-      object btnGenerate: TUniFSButton
-        Left = 4
-        Top = 17
-        Width = 140
-        Height = 34
-        Hint = ''
-        StyleButton = Primary
-        CaptionIconFont = 
-          '<i class="fa fa-check-circle" aria-hidden="true"; style="font-si' +
-          'ze: 14px;"></i>'
-        BadgeText.Text = '0'
-        BadgeText.TextColor = '#FFFFFF'
-        BadgeText.TextSize = 10
-        BadgeText.TextStyle = 'bold'
-        BadgeText.BackgroundColor = '#D50000'
-        Caption = ' Generate'
-        ParentFont = False
-        Font.Color = clWhite
-        Font.Height = -13
-        TabOrder = 2
-        ScreenMask.Enabled = True
-        ScreenMask.WaitData = True
-        ScreenMask.Message = 'Generating unit...'
-        OnClick = btnGenerateClick
-      end
-      object btnValidate: TUniFSButton
-        Left = 152
-        Top = 17
-        Width = 115
-        Height = 34
-        Hint = ''
-        StyleButton = Default
-        BadgeText.Text = '0'
-        BadgeText.TextColor = '#FFFFFF'
-        BadgeText.TextSize = 10
-        BadgeText.TextStyle = 'bold'
-        BadgeText.BackgroundColor = '#D50000'
-        Caption = 'Validate JSON'
-        ParentFont = False
-        Font.Color = clBlack
-        Font.Height = -13
-        TabOrder = 3
-        ClientEvents.ExtEvents.Strings = (
-          
-            'click=function click(sender, e, eOpts)'#13#10'{'#13#10'  window.open("https:' +
-            '//jsonformatter.curiousconcept.com");'#13#10'}')
-        ScreenMask.WaitData = True
-        ScreenMask.Message = 'Opening...'
-      end
-      object btn1: TUniFSButton
-        Left = 976
-        Top = 17
-        Width = 38
-        Height = 34
-        Hint = 'About donate'
-        ShowHint = True
-        ParentShowHint = False
-        StyleButton = Default
-        CaptionIconFont = '<i class="fas fa-hands-helping" aria-hidden="true"></i>'
-        BadgeText.Text = '0'
-        BadgeText.TextColor = '#FFFFFF'
-        BadgeText.TextSize = 10
-        BadgeText.TextStyle = 'bold'
-        BadgeText.BackgroundColor = '#D50000'
-        Caption = ''
-        ParentFont = False
-        Font.Color = clBlack
-        Font.Height = -16
-        TabOrder = 4
-        OnClick = btn1Click
-      end
-      object btnSample: TUniFSButton
-        Left = 274
-        Top = 17
-        Width = 115
-        Height = 34
-        Hint = ''
-        StyleButton = Default
-        BadgeText.Text = '0'
-        BadgeText.TextColor = '#FFFFFF'
-        BadgeText.TextSize = 10
-        BadgeText.TextStyle = 'bold'
-        BadgeText.BackgroundColor = '#D50000'
-        Caption = 'Sample Use'
-        ParentFont = False
-        Font.Color = clBlack
-        Font.Height = -13
-        TabOrder = 5
-        ScreenMask.WaitData = True
-        ScreenMask.Message = 'Opening...'
-        OnClick = btnSampleClick
-      end
-      object btnCollaborators: TUniFSButton
-        Left = 930
-        Top = 17
-        Width = 38
-        Height = 34
-        Hint = 'List of Contributors'
-        ShowHint = True
-        ParentShowHint = False
-        StyleButton = Default
-        CaptionIconFont = '<i class="fas fa-comment-dollar" aria-hidden="true"></i>'
-        BadgeText.Text = '0'
-        BadgeText.TextColor = '#FFFFFF'
-        BadgeText.TextSize = 10
-        BadgeText.TextStyle = 'bold'
-        BadgeText.BackgroundColor = '#D50000'
-        Caption = ''
-        ParentFont = False
-        Font.Color = clGreen
-        Font.Height = -16
-        TabOrder = 6
-      end
-    end
-    object spl1: TUniSplitter
-      Left = 0
-      Top = 439
-      Width = 1024
-      Height = 6
-      Cursor = crVSplit
-      Hint = ''
-      Align = alTop
-      ParentColor = False
-      Color = clBtnFace
-    end
-  end
-  object pnlBottom: TUniPanel
-    Left = 0
-    Top = 571
-    Width = 1080
-    Height = 53
-    Hint = ''
-    Align = alBottom
-    TabOrder = 1
-    BorderStyle = ubsNone
-    Caption = ''
-    Color = 15460837
-    DesignSize = (
-      1080
-      53)
-    object imgFalconSistemas: TUniImage
-      Left = 442
-      Top = 6
-      Width = 150
-      Height = 39
-      Cursor = crHandPoint
-      Hint = 'http://www.falconsistemas.com.br'
+    object btnCollaborators: TUniFSButton
+      Left = 932
+      Top = 449
+      Width = 38
+      Height = 34
+      Hint = 'List of Contributors'
       ShowHint = True
       ParentShowHint = False
-      AutoSize = True
-      Url = '/imagens/Falcon_Sistemas_Powered_by.png'
-      Anchors = [akBottom]
+      StyleButton = GoogleSilver
+      CaptionIconFont = '<i class="fas fa-comment-dollar" aria-hidden="true"></i>'
+      BadgeText.Text = '0'
+      BadgeText.TextColor = '#FFFFFF'
+      BadgeText.TextSize = 10
+      BadgeText.TextStyle = 'bold'
+      BadgeText.BackgroundColor = '#D50000'
+      Caption = ''
+      ParentFont = False
+      Font.Color = clGreen
+      Font.Height = -16
+      Font.Name = 'Roboto'
+      TabOrder = 7
+    end
+    object btn1: TUniFSButton
+      Left = 981
+      Top = 449
+      Width = 38
+      Height = 34
+      Hint = 'About donate'
+      ShowHint = True
+      ParentShowHint = False
+      StyleButton = GoogleSilver
+      CaptionIconFont = '<i class="fas fa-hands-helping" aria-hidden="true"></i>'
+      BadgeText.Text = '0'
+      BadgeText.TextColor = '#FFFFFF'
+      BadgeText.TextSize = 10
+      BadgeText.TextStyle = 'bold'
+      BadgeText.BackgroundColor = '#D50000'
+      Caption = ''
+      ParentFont = False
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = 'Roboto'
+      TabOrder = 8
+      OnClick = btn1Click
+    end
+    object lblNews: TUniLabel
+      Left = 622
+      Top = 514
+      Width = 397
+      Height = 17
+      Cursor = crHandPoint
+      Hint = ''
+      Alignment = taRightJustify
+      TextConversion = txtHTML
+      AutoSize = False
+      Caption = 
+        '<i class="fab fa-lg fa-github"></i> News Fixes & Features: 26h D' +
+        'ecember 2021'
+      ParentFont = False
+      Font.Color = clHighlight
+      Font.Height = -13
+      Font.Name = 'Roboto'
+      ParentColor = False
+      Color = clBlack
       ClientEvents.ExtEvents.Strings = (
         
-          'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://f' +
-          'alconsistemas.com.br");'#13#10'}')
-      LayoutConfig.Cls = 'card card-radius'
+          'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://g' +
+          'ithub.com/marlonnardi/JsonToDelphi#fixes--features-26h-december-' +
+          '2021");'#13#10'}')
+      TabOrder = 10
     end
-    object lblVersion: TUniLabel
-      Left = 970
-      Top = 34
-      Width = 89
-      Height = 11
-      Hint = 'Version'
-      ShowHint = True
-      ParentShowHint = False
-      Alignment = taRightJustify
-      AutoSize = False
-      Caption = '1.0.0.2'
-      Anchors = [akRight, akBottom]
+    object btnGenerate: TUniFSButton
+      Left = 2
+      Top = 449
+      Width = 140
+      Height = 34
+      Hint = ''
+      StyleButton = GoogleBlue2
+      CaptionIconFont = 
+        '<i class="fa fa-check-circle" aria-hidden="true"; style="font-si' +
+        'ze: 14px;"></i>'
+      BadgeText.Text = '0'
+      BadgeText.TextColor = '#FFFFFF'
+      BadgeText.TextSize = 10
+      BadgeText.TextStyle = 'bold'
+      BadgeText.BackgroundColor = '#D50000'
+      Caption = ' Generate'
       ParentFont = False
-      Font.Color = 10853781
-      Font.Height = -9
-      TabOrder = 2
-    end
-    object lblVerionPrior: TUniLabel
-      Left = 26
-      Top = 34
-      Width = 89
-      Height = 11
-      Cursor = crHandPoint
-      Hint = 'Version Old of JsonToDelphi'
-      ShowHint = True
-      ParentShowHint = False
-      AutoSize = False
-      Caption = 'Version Old'
-      ParentFont = False
-      Font.Color = 10853781
-      Font.Height = -9
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Roboto'
       TabOrder = 3
-      OnClick = lblVerionPriorClick
+      ScreenMask.Enabled = True
+      ScreenMask.WaitData = True
+      ScreenMask.Message = 'Generating unit...'
+      OnClick = btnGenerateClick
+    end
+    object btnValidate: TUniFSButton
+      Left = 150
+      Top = 449
+      Width = 115
+      Height = 34
+      Hint = ''
+      StyleButton = GoogleSilver
+      BadgeText.Text = '0'
+      BadgeText.TextColor = '#FFFFFF'
+      BadgeText.TextSize = 10
+      BadgeText.TextStyle = 'bold'
+      BadgeText.BackgroundColor = '#D50000'
+      Caption = 'Validate JSON'
+      ParentFont = False
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Roboto'
+      TabOrder = 4
+      ClientEvents.ExtEvents.Strings = (
+        
+          'click=function click(sender, e, eOpts)'#13#10'{'#13#10'  window.open("https:' +
+          '//jsonformatter.curiousconcept.com");'#13#10'}')
+      ScreenMask.WaitData = True
+      ScreenMask.Message = 'Opening...'
+    end
+    object btnSample: TUniFSButton
+      Left = 272
+      Top = 449
+      Width = 115
+      Height = 34
+      Hint = ''
+      StyleButton = GoogleSilver
+      BadgeText.Text = '0'
+      BadgeText.TextColor = '#FFFFFF'
+      BadgeText.TextSize = 10
+      BadgeText.TextStyle = 'bold'
+      BadgeText.BackgroundColor = '#D50000'
+      Caption = 'Sample Use'
+      ParentFont = False
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Roboto'
+      TabOrder = 5
+      ScreenMask.WaitData = True
+      ScreenMask.Message = 'Opening...'
+      OnClick = btnSampleClick
+    end
+    object grpSettings: TUniGroupBox
+      Left = 3
+      Top = 494
+      Width = 384
+      Height = 76
+      Hint = ''
+      Caption = 'Delphi class generation options'
+      TabOrder = 9
+      ParentFont = False
+      Font.Name = 'Roboto'
+      object chkUsePascalCase: TUniCheckBox
+        Left = 16
+        Top = 21
+        Width = 168
+        Height = 17
+        Hint = ''
+        Checked = True
+        Caption = 'Use Pascal Case'
+        ParentFont = False
+        Font.Name = 'Roboto'
+        TabOrder = 1
+        Color = 16447477
+      end
+      object chkAddJsonPropertyAttributes: TUniCheckBox
+        Left = 186
+        Top = 21
+        Width = 182
+        Height = 17
+        Hint = ''
+        Caption = 'Add JsonProperty Attributes'
+        ParentFont = False
+        Font.Name = 'Roboto'
+        TabOrder = 2
+        Color = 16447477
+      end
+      object chkSuppressZeroDate: TUniCheckBox
+        Left = 16
+        Top = 46
+        Width = 168
+        Height = 17
+        Hint = ''
+        Checked = True
+        Caption = 'Suppress Zero Date'
+        TabOrder = 3
+        Color = 16447477
+      end
+      object chkPostfixClassNames: TUniCheckBox
+        Left = 186
+        Top = 46
+        Width = 182
+        Height = 17
+        Hint = ''
+        Caption = 'Postfix class names'
+        ParentFont = False
+        Font.Name = 'Roboto'
+        TabOrder = 4
+        Color = 16447477
+      end
+    end
+    object lblDoacao: TUniLabel
+      Left = 758
+      Top = 449
+      Width = 162
+      Height = 45
+      Hint = ''
+      TextConversion = txtHTML
+      AutoSize = False
+      Caption = 'lblDoacao'
+      TabOrder = 6
+      OnClick = lblDoacaoClick
     end
   end
   object tmr: TUniTimer
     Interval = 3000
+    Enabled = False
     RunOnce = True
     ClientEvent.Strings = (
       'function(sender)'

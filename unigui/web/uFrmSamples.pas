@@ -17,6 +17,7 @@ type
     btnDownload: TUniFSButton;
     procedure UniFormAfterShow(Sender: TObject);
     procedure btnDownloadClick(Sender: TObject);
+    procedure UniFormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -30,7 +31,7 @@ implementation
 {$R *.dfm}
 
 uses
-  MainModule, uniGUIApplication, ServerModule;
+  MainModule, uniGUIApplication, ServerModule, Main;
 
 function frmSamples: TfrmSamples;
 begin
@@ -46,8 +47,13 @@ end;
 
 procedure TfrmSamples.UniFormAfterShow(Sender: TObject);
 begin
-  UniSession.AddJS('ga(''set'',''page'', ''/'+Self.Name+'.html'');');
-  UniSession.AddJS('ga(''send'',''pageview'');');
+  UniMainModule.SetGA4(Self.Name);
+end;
+
+procedure TfrmSamples.UniFormCreate(Sender: TObject);
+begin
+  Self.Top := 15;
+  Self.Height := MainForm.Height - 30;
 end;
 
 end.

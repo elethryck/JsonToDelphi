@@ -124,7 +124,7 @@ begin
   Confirm := TUniFSConfirm.Create(Self);
   try
     Confirm.boxWidth := '90%';
-    Confirm.Alert(Title, Msg,'fa fa-smile-o',TTypeColor.green, TTheme.modern);
+    Confirm.Alert(Title, Msg,'far fa-lightbulb',TTypeColor.green, TTheme.modern);
   finally
     FreeAndNil(Confirm);
   end;
@@ -134,14 +134,11 @@ procedure TMainmForm.tmrTimer(Sender: TObject);
 begin
   Confirm.boxWidth := '90%';
   Confirm.Alert(
-    'Thanks for the donations',
-    'If you like this site and use it frequently, <b>make a donation to keep it up and running !</b> <br> <br>'+
-    lblDoacao.Caption+'</br>'+
-    'Thanks</br>'+
-    '<i class=''fas fa-medal''></i> <b>Геннадий Малинин</b> $5,00 USD</br> '+
-    '<i class=''fas fa-medal''></i> <b>Pierre Demers</b> $30,00 USD</br> '+
-    '<i class=''fas fa-medal''></i> <b>Christian Späth</b> $15,00 USD',
-    'fas fa-hands-helping',TTypeColor.blue, TTheme.modern);
+    'jsontodelphi',
+    '<p>If you like this site and use it frequently, <b>make a donation to keep it up and running !</b></p> </br>'+
+    '<i class=''fab fa-lg fa-github''></i><a href="https://github.com/marlonnardi/JsonToDelphi#fixes--features-26h-december-2021" target="_blank"> News Fixes & Features: 26h December 2021</a> </br></br> '+
+    lblDoacao.Caption+'</br>',
+    'fas fa-rocket',TTypeColor.green, TTheme.modern);
 end;
 
 procedure TMainmForm.UnimFormResize(Sender: TObject);
@@ -152,8 +149,7 @@ end;
 procedure TMainmForm.UnimFormShow(Sender: TObject);
 begin
   DefineRegrasLayout;
-  UniSession.AddJS('ga(''set'',''page'', ''/'+Self.Name+'.html'');');
-  UniSession.AddJS('ga(''send'',''pageview'');');
+  UniMainModule.SetGA4(Self.Name);
 end;
 
 procedure TMainmForm.UnimFormTitleButtonClick(Sender: TUnimTitleButton);

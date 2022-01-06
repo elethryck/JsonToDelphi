@@ -2,21 +2,31 @@ unit Pkg.Json.DTO;
 
 interface
 
-uses
-  System.Classes, System.Json, Rest.Json, Rest.JsonReflect;
+uses System.Classes, System.Json, Rest.Json, System.Generics.Collections, Rest.JsonReflect;
 
 type
-  TJsonDTO = class
+  TArrayMapper = class
+  protected
+    procedure RefreshArray<T>(aSource: TList<T>; var aDestination: TArray<T>);
+    function List<T>(var aList: TList<T>; aSource: TArray<T>): TList<T>;
+    function ObjectList<T: class>(var aList: TObjectList<T>; aSource: TArray<T>): TObjectList<T>;
+  public
+    constructor Create; virtual;
+  end;
+
+  TJsonDTO = class(TArrayMapper)
   private
     FOptions: TJsonOptions;
-    function GetAsJson: string;
-    procedure SetAsJson(aValue: string);
     class procedure PrettyPrintPair(aJSONValue: TJSONPair; aOutputStrings: TStrings; Last: Boolean; Indent: Integer);
     class procedure PrettyPrintJSON(aJSONValue: TJsonValue; aOutputStrings: TStrings; Indent: Integer = 0); overload;
     class procedure PrettyPrintArray(aJSONValue: TJSONArray; aOutputStrings: TStrings; Last: Boolean; Indent: Integer);
+  protected
+    function GetAsJson: string; virtual;
+    procedure SetAsJson(aValue: string); virtual;
   public
-    constructor Create; virtual;
+    constructor Create; override;
     class function PrettyPrintJSON(aJson: string): string; overload;
+    function ToString: string; override;
     property AsJson: string read GetAsJson write SetAsJson;
   end;
 
@@ -25,10 +35,14 @@ type
     constructor Create;
   end;
 
+  SuppressZeroAttribute = class(JsonReflectAttribute)
+  public
+    constructor Create;
+  end;
+
 implementation
 
-uses
-  System.Sysutils, System.JSONConsts, System.Rtti, System.Generics.Collections;
+uses System.Sysutils, System.JSONConsts, System.Rtti, System.DateUtils;
 
 { TJsonDTO }
 
@@ -45,6 +59,7 @@ end;
 
 const
   INDENT_SIZE = 2;
+
 class procedure TJsonDTO.PrettyPrintJSON(aJSONValue: TJsonValue; aOutputStrings: TStrings; Indent: Integer);
 var
   i: Integer;
@@ -164,6 +179,49 @@ begin
   end;
 end;
 
+function TJsonDTO.ToString: string;
+begin
+  Result := AsJson;
+end;
+
+{ TArrayMapper }
+
+constructor TArrayMapper.Create;
+begin
+  inherited;
+end;
+
+function TArrayMapper.List<T>(var aList: TList<T>; aSource: TArray<T>): TList<T>;
+begin
+  if aList = nil then
+  begin
+    aList := TList<T>.Create;
+    aList.AddRange(aSource);
+  end;
+
+  Exit(aList);
+end;
+
+function TArrayMapper.ObjectList<T>(var aList: TObjectList<T>; aSource: TArray<T>): TObjectList<T>;
+var
+  Element: T;
+begin
+  if aList = nil then
+  begin
+    aList := TObjectList<T>.Create;
+    for Element in aSource do
+      aList.Add(Element);
+  end;
+
+  Exit(aList);
+end;
+
+procedure TArrayMapper.RefreshArray<T>(aSource: TList<T>; var aDestination: TArray<T>);
+begin
+  if aSource <> nil then
+    aDestination := aSource.ToArray;
+end;
+
 type
   TGenericListFieldInterceptor = class(TJSONInterceptor)
   public
@@ -176,8 +234,10 @@ function TGenericListFieldInterceptor.ObjectsConverter(Data: TObject; Field: str
 var
   ctx: TRttiContext;
   List: TList<TObject>;
+  RttiProperty: TRttiProperty;
 begin
-  List := TList<TObject>(ctx.GetType(Data.ClassInfo).GetField(Field).GetValue(Data).AsObject);
+  RttiProperty := ctx.GetType(Data.ClassInfo).GetProperty(Copy(Field, 2, MAXINT));
+  List := TList<TObject>(RttiProperty.GetValue(Data).AsObject);
   Result := TListOfObjects(List.List);
   SetLength(Result, List.Count);
 end;
@@ -185,6 +245,45 @@ end;
 constructor GenericListReflectAttribute.Create;
 begin
   inherited Create(ctObjects, rtObjects, TGenericListFieldInterceptor, nil, false);
+end;
+
+type
+  TSuppressZeroDateInterceptor = class(TJSONInterceptor)
+  public
+    function StringConverter(Data: TObject; Field: string): string; override;
+    procedure StringReverter(Data: TObject; Field: string; Arg: string); override;
+  end;
+
+function TSuppressZeroDateInterceptor.StringConverter(Data: TObject; Field: string): string;
+var
+  RttiContext: TRttiContext;
+  Date: TDateTime;
+begin
+  Date := RttiContext.GetType(Data.ClassType).GetField(Field).GetValue(Data).AsType<TDateTime>;
+  if Date = 0 then
+    Result := string.Empty
+  else
+    Result := DateToISO8601(Date, True);
+end;
+
+procedure TSuppressZeroDateInterceptor.StringReverter(Data: TObject; Field, Arg: string);
+var
+  RttiContext: TRttiContext;
+  Date: TDateTime;
+begin
+  if Arg.IsEmpty then
+    Date := 0
+  else
+    Date := ISO8601ToDate(Arg, True);
+
+  RttiContext.GetType(Data.ClassType).GetField(Field).SetValue(Data, Date);
+end;
+
+{ SuppressZeroAttribute }
+
+constructor SuppressZeroAttribute.Create;
+begin
+  inherited Create(ctString, rtString, TSuppressZeroDateInterceptor);
 end;
 
 end.
