@@ -133,10 +133,11 @@ end;
 procedure TMainmForm.tmrTimer(Sender: TObject);
 begin
   Confirm.boxWidth := '90%';
+  Confirm.ButtonTextOK := 'No thank you';
   Confirm.Alert(
     'jsontodelphi',
     '<p>If you like this site and use it frequently, <b>make a donation to keep it up and running !</b></p> </br>'+
-    '<i class=''fab fa-lg fa-github''></i><a href="https://github.com/marlonnardi/JsonToDelphi#fixes--features-26h-december-2021" target="_blank"> News Fixes & Features: 26h December 2021</a> </br></br> '+
+    '<i class=''fab fa-lg fa-github''></i><a href="https://github.com/marlonnardi/JsonToDelphi#fixes--features-26h-december-2021" target="_blank"> News Fixes & Features </a> </br></br> '+
     lblDoacao.Caption+'</br>',
     'fas fa-rocket',TTypeColor.green, TTheme.modern);
 end;

@@ -50,7 +50,8 @@ uses
   Pkg.Json.Lists in '..\Pkg.Json.Lists.pas',
   Pkg.Json.ReservedWords in '..\Pkg.Json.ReservedWords.pas',
   Pkg.Json.StubField in '..\Pkg.Json.StubField.pas',
-  Pkg.JSON.SubTypes in '..\Pkg.JSON.SubTypes.pas';
+  Pkg.JSON.SubTypes in '..\Pkg.JSON.SubTypes.pas',
+  UniFSToast in 'classes\UniFSToast.pas';
 
 {$R *.res}
 

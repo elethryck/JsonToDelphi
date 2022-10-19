@@ -14,7 +14,6 @@ object MainForm: TMainForm
   OnAjaxEvent = UniFormAjaxEvent
   OnCreate = UniFormCreate
   OnDestroy = UniFormDestroy
-  PixelsPerInch = 96
   DesignSize = (
     1080
     647)
@@ -52,17 +51,16 @@ object MainForm: TMainForm
       LayoutConfig.Cls = 'card card-radius'
     end
     object lblVersion: TUniLabel
-      Left = 970
-      Top = 23
+      Left = 24
+      Top = 22
       Width = 89
       Height = 11
       Hint = 'Version'
       ShowHint = True
       ParentShowHint = False
-      Alignment = taRightJustify
       AutoSize = False
       Caption = '1.0.0.2'
-      Anchors = [akRight, akBottom]
+      Anchors = [akLeft, akBottom]
       ParentFont = False
       Font.Color = 10853781
       Font.Height = -9
@@ -111,8 +109,8 @@ object MainForm: TMainForm
         TabOrder = 1
       end
       object lblSubTitle: TUniLabel
-        Left = 4
-        Top = 57
+        Left = 3
+        Top = 55
         Width = 231
         Height = 21
         Hint = ''
@@ -122,7 +120,7 @@ object MainForm: TMainForm
         Font.Height = -16
         ParentColor = False
         Color = clGray
-        TabOrder = 11
+        TabOrder = 4
       end
       object lblDeveloper: TUniLabel
         Left = 941
@@ -158,7 +156,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 6
+        TabOrder = 7
       end
       object lbl2: TUniLabel
         Left = 817
@@ -194,7 +192,7 @@ object MainForm: TMainForm
           
             'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://g' +
             'ithub.com/PKGeorgiev");'#13#10'}')
-        TabOrder = 7
+        TabOrder = 8
       end
       object lbl4: TUniLabel
         Left = 974
@@ -209,7 +207,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 10
+        TabOrder = 11
       end
       object lbl5: TUniLabel
         Left = 618
@@ -226,7 +224,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 4
+        TabOrder = 5
       end
       object UniLabel1: TUniLabel
         Left = 920
@@ -279,7 +277,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 5
+        TabOrder = 6
       end
       object UniLabel3: TUniLabel
         Left = 876
@@ -315,20 +313,6 @@ object MainForm: TMainForm
         Color = clBlack
         TabOrder = 15
       end
-      object lblJsonToPascal: TUniLabel
-        Left = 5
-        Top = 82
-        Width = 94
-        Height = 21
-        Hint = ''
-        Caption = 'json to pascal'
-        ParentFont = False
-        Font.Color = clGray
-        Font.Height = -16
-        ParentColor = False
-        Color = clGray
-        TabOrder = 12
-      end
       object lbl7: TUniLabel
         Left = 857
         Top = 56
@@ -342,7 +326,7 @@ object MainForm: TMainForm
         Font.Height = -13
         ParentColor = False
         Color = clBlack
-        TabOrder = 8
+        TabOrder = 9
       end
       object lbl8: TUniLabel
         Left = 883
@@ -363,7 +347,21 @@ object MainForm: TMainForm
           
             'click=function click(sender, eOpts)'#13#10'{'#13#10'  window.open("https://g' +
             'ithub.com/PKGeorgiev");'#13#10'}')
-        TabOrder = 9
+        TabOrder = 10
+      end
+      object lblJsonToPascal: TUniLabel
+        Left = 5
+        Top = 82
+        Width = 306
+        Height = 21
+        Hint = ''
+        Caption = 'json to pascal, delphi json object, delphi json'
+        ParentFont = False
+        Font.Color = 16447477
+        Font.Height = -16
+        ParentColor = False
+        Color = 16447477
+        TabOrder = 12
       end
     end
     object memJson: TUniMemo
@@ -434,9 +432,7 @@ object MainForm: TMainForm
       Alignment = taRightJustify
       TextConversion = txtHTML
       AutoSize = False
-      Caption = 
-        '<i class="fab fa-lg fa-github"></i> News Fixes & Features: 26h D' +
-        'ecember 2021'
+      Caption = '<i class="fab fa-lg fa-github"></i> News Fixes & Features'
       ParentFont = False
       Font.Color = clHighlight
       Font.Height = -13
@@ -597,7 +593,6 @@ object MainForm: TMainForm
   end
   object tmr: TUniTimer
     Interval = 3000
-    Enabled = False
     RunOnce = True
     ClientEvent.Strings = (
       'function(sender)'
@@ -606,7 +601,7 @@ object MainForm: TMainForm
       '}')
     OnTimer = tmrTimer
     Left = 509
-    Top = 248
+    Top = 208
   end
   object Confirm: TUniFSConfirm
     Theme = modern
@@ -631,6 +626,43 @@ object MainForm: TMainForm
     PromptType.TextRequiredField = 'Field riquired'
     PromptType.CharCase = Normal_
     Left = 509
-    Top = 320
+    Top = 264
+  end
+  object Toast: TUniFSToast
+    TitleSize = 13
+    TitleLineHeight = 0
+    MsgSize = 12
+    MsgLineHeight = 0
+    Theme = Dark
+    ImageWidth = 0
+    MaxWidth = 0
+    zIndex = 99999
+    Layout = SmallInt
+    Balloon = False
+    Close = True
+    CloseOnEscape = False
+    CloseOnClick = False
+    RTL = False
+    Position = bottomRight
+    TimeOut = 5000
+    Drag = True
+    Overlay = False
+    ToastOnce = False
+    PauseOnHover = True
+    ResetOnHover = False
+    ProgressBar = True
+    ProgressBarColor = 'rgb(0, 255, 184)'
+    ScreenMask.Enabled = False
+    Animateinside = True
+    TransitionIn = fadeInUp
+    TransitionOut = fadeOut
+    TransitionInMobile = fadeInUp
+    TransitionOutMobile = fadeOutDown
+    ButtonTextYes = 'Confirma'
+    ButtonTextNo = 'Cancela'
+    ButtonCustomActive = False
+    OnButtonCustomClickPopup = ToastButtonCustomClickPopup
+    Left = 511
+    Top = 322
   end
 end

@@ -8,7 +8,7 @@ uses
   uniGUIForm, uniLabel, uniGUIBaseClasses, uniPanel, uniMemo, uniHTMLFrame,
   uniSplitter, uniRadioGroup, uniButton, uniBitBtn, UniFSButton, uniImage,
   UniFSConfirm, UniFSPopup, Pkg.Json.Mapper, Pkg.Json.DTO, Pkg.Json.Settings,
-  uniTimer, uniCheckBox, uniGroupBox;
+  uniTimer, uniCheckBox, uniGroupBox, UniFSToast;
 
 type
   TMainForm = class(TUniForm)
@@ -48,6 +48,7 @@ type
     chkSuppressZeroDate: TUniCheckBox;
     chkPostfixClassNames: TUniCheckBox;
     lblDoacao: TUniLabel;
+    Toast: TUniFSToast;
     procedure UniFormAfterShow(Sender: TObject);
     procedure UniFormClose(Sender: TObject; var Action: TCloseAction);
     procedure UniFormAjaxEvent(Sender: TComponent; EventName: string; Params: TUniStrings);
@@ -58,9 +59,17 @@ type
     procedure UniFormDestroy(Sender: TObject);
     procedure tmrTimer(Sender: TObject);
     procedure lblDoacaoClick(Sender: TObject);
+    procedure ToastButtonCustomClickPopup(Sender: TObject);
+  protected
+    FIdMessage: Integer;
+    procedure RandomNotification();
+    procedure DonationNotification();
+
+    procedure OnClickPopup(Sender: TObject);
   protected
     Popup: TUniFSPopup;
     procedure LoadCoallaborators;
+
   private
     { Private declarations }
     JsonMapper : TPkgJsonMapper;
@@ -180,7 +189,19 @@ begin
 
   lblVersion.Caption := TSistema.GetVersao(UniServerModule.StartPath + '\jsontodelphi.dll');
 
-  lblJsonToPascal.Visible := False;
+  //lblJsonToPascal.Visible := False;
+end;
+
+procedure TMainForm.DonationNotification;
+begin
+  Confirm.boxWidth := '500px';
+  Confirm.ButtonTextOK := 'No thank you';
+  Confirm.Alert(
+    'jsontodelphi',
+    '<p>"If you like this site and use it frequently, <b>make a donation to keep it up and running !</b>"</p> </br> '+
+    '<p><i class="fab fa-lg fa-github"></i><a href="https://github.com/marlonnardi/JsonToDelphi#fixes--features-26h-december-2021" target="_blank"> News Fixes & Features</a></p></br> '+
+    lblDoacao.Caption+'</br>',
+    'fas fa-rocket',TTypeColor.green, TTheme.modern);
 end;
 
 procedure TMainForm.lblDoacaoClick(Sender: TObject);
@@ -196,6 +217,9 @@ begin
   try
     SB.Append('<div style=''margin:0px 0px 8px 0px'';>List of Contributors</div>');
     SB.Append('<div class=''list-group''> ');
+    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2022-10-14 - Rodrigo Pysklyvicz <b>R$ 10,00</b> </a>');
+    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2022-10-10 - Thomas Scheidegger <b>U$ 100,00</b> </a>');
+    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2022-07-06 - CM SOLUÇÕES LTDA <b>R$ 120,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-12-05 - Leon Siepman <b>U$ 25,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-11-06 - Samuel Herzog <b>U$ 20,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-10-30 - Christian Späth <b>U$ 15,00</b> </a>');
@@ -203,14 +227,57 @@ begin
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-07-24 - Геннадий Малинин <b>U$ 5,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-06-25 - Pierre Demers <b>U$ 30,00</b> </a>');
     SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2021-06-16 - Christian Späth <b>U$ 15,00</b> </a>');
-    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2020-07-06 - DEMORSOFT  <b>U$ 10,00</b> </a>');
-    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2020-05-31 - Gordon Niessen <b>U$ 10,00</b> </a>');
-    SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2018-08-30 - Toni Puhakka <b>U$ 10,00</b> </a>');
+    //SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2020-07-06 - DEMORSOFT  <b>U$ 10,00</b> </a>');
+    //SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2020-05-31 - Gordon Niessen <b>U$ 10,00</b> </a>');
+    //SB.Append('<a class=''fs-group-item''><i class=''far fa-thumbs-up fa-lg text-green''></i>&nbsp; 2018-08-30 - Toni Puhakka <b>U$ 10,00</b> </a>');
     SB.Append('</div> ');
 
     Popup.SetHtml(SB.ToString);
   finally
     FreeAndNil(SB);
+  end;
+end;
+
+procedure TMainForm.OnClickPopup(Sender: TObject);
+begin
+  case FIdMessage of
+    0: UniSession.UrlRedirect('https://store.falconsistemas.com.br');
+    1: UniSession.UrlRedirect('https://financeiro.app/');
+  end;
+end;
+
+procedure TMainForm.RandomNotification;
+  procedure Message0();
+  begin
+    Toast.ButtonCustomActive := True;
+    Toast.ButtonCustomText := 'Falcon Store';
+    Toast.ButtonCustomURL := 'https://store.falconsistemas.com.br';
+    Toast.Title := 'Components for uniGUI';
+    Toast.Msg := 'Also check out beautiful components for uniGUI';
+    Toast.Image := 'https://store.falconsistemas.com.br/imagens/falcon_store_200.png';
+    Toast.ProgressBar := False;
+    Toast.TimeOut := 0;
+    Toast.OnClickPopup := OnClickPopup;
+    Toast.Show();
+  end;
+  procedure Message1();
+  begin
+    Toast.ButtonCustomActive := True;
+    Toast.ButtonCustomText := 'Falcon Finanças';
+    Toast.ButtonCustomURL := 'https://financeiro.app/';
+    Toast.Title := 'Gerenciador Financeiro';
+    Toast.Msg := 'Tenha um controle eficiente de suas finanças ';
+    Toast.Image := 'https://financeiro.app/imagens/falcon_financas_200_new.png';
+    Toast.ProgressBar := False;
+    Toast.TimeOut := 0;
+    Toast.OnClickPopup := OnClickPopup;
+    Toast.Show();
+  end;
+begin
+  FIdMessage := Random(2);
+  case FIdMessage of
+    0: Message0();
+    1: Message1();
   end;
 end;
 
@@ -228,13 +295,17 @@ end;
 
 procedure TMainForm.tmrTimer(Sender: TObject);
 begin
-  Confirm.boxWidth := '500px';
-  Confirm.Alert(
-    'jsontodelphi',
-    '<p>"If you like this site and use it frequently, <b>make a donation to keep it up and running !</b>"</p> </br> '+
-    '<p><i class="fab fa-lg fa-github"></i><a href="https://github.com/marlonnardi/JsonToDelphi#fixes--features-03h-october-2021" target="_blank"> News Fixes & Features: 03h October 2021</a></p></br> '+
-    lblDoacao.Caption+'</br>',
-    'fas fa-rocket',TTypeColor.green, TTheme.modern);
+  //DonationNotification();
+  RandomNotification();
+end;
+
+procedure TMainForm.ToastButtonCustomClickPopup(Sender: TObject);
+begin
+  case FIdMessage of
+    0: Inc(UniServerModule.v1);
+    1: Inc(UniServerModule.v2);
+  end;
+  Toast.CloseAll;
 end;
 
 procedure TMainForm.UniFormAfterShow(Sender: TObject);
@@ -268,6 +339,14 @@ begin
   Popup.ArrowLocation := TArrowLocation.bottom;
   Popup.Target := btnCollaborators;
   LoadCoallaborators;
+
+  if UniApplication.Parameters.Values['Analytics'] <> EmptyStr then
+  begin
+    ShowMessage(
+      'Store: '+ UniServerModule.v1.ToString + '</br>'+
+      'Finanças: '+ UniServerModule.v2.ToString + '</br>')
+  end;
+
 end;
 
 procedure TMainForm.UniFormDestroy(Sender: TObject);
