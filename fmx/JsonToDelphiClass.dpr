@@ -30,6 +30,5 @@ begin
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TSaveUnitForm, SaveUnitForm);
-  Application.CreateForm(TUpdateForm, UpdateForm);
   Application.Run;
 end.

@@ -14,7 +14,7 @@ uses
   System.Actions, FMX.ActnList, FMX.Memo.Types;
 
 const
-  JsonValidatorUrl = 'http://jsonlint.com';
+  JsonValidatorUrl = 'https://jsonformatter.org';
 
 type
 
@@ -61,7 +61,6 @@ type
     procedure MainPopupMenuPopup(Sender: TObject);
     procedure TreeViewDblClick(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure Label1Click(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure TreeViewKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
@@ -137,7 +136,7 @@ end;
 
 procedure TMainForm.Edit1Change(Sender: TObject);
 begin
-  Edit2.Text := Edit1.Text + 'U';
+  Edit2.Text := Edit1.Text + 'Unit';
 end;
 
 procedure TMainForm.PreviewUnitClick(Sender: TObject);
@@ -228,49 +227,6 @@ begin
 {$ENDIF POSIX}
 end;
 
-procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-  if FUpdateCheckEvent.WaitFor(0) = wrSignaled then
-    CanClose := True
-  else
-  begin
-    CanClose := false;
-
-    case FApplicationStatus of
-      0:
-        begin
-          TInterlocked.Increment(FApplicationStatus);
-          DisableGuiElements;
-
-          Label1.Text := 'Terminating application, please wait...';
-
-          // We start a termination task.
-          // This way the main thread will not freeze
-          TTask.Run(
-            procedure
-            begin
-              FUpdateCheckEvent.WaitFor();
-
-              // Indicate next stage
-              TInterlocked.Increment(FApplicationStatus);
-
-              // We enqueue the handler
-              TThread.Queue(nil,
-                procedure
-                begin
-                  CLose;
-                end);
-            end);
-
-        end;
-      1:
-        ;
-    else
-      CanClose := True;
-    end;
-  end;
-end;
-
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FApplicationStatus := 0;
@@ -285,7 +241,7 @@ begin
 
   Label1.Text := 'Checking for update...';
 
-  NewCheckForUpdateTask(
+{  NewCheckForUpdateTask(
     procedure(ARelease: TObject)
     begin
       FCheckVersionResponse := ARelease;
@@ -309,6 +265,7 @@ begin
       end;
       FUpdateCheckEvent.SetEvent;
     end);
+    }
 
 end;
 
